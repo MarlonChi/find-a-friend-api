@@ -1,15 +1,15 @@
 import { faker } from "@faker-js/faker";
 import { beforeEach, describe, expect, it } from "vitest";
-import { RegisterUseCase } from "./register";
+import { CreateOrgUseCase } from "./create-org";
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
 
-describe("Register Use Case", () => {
+describe("Create Org Use Case", () => {
   let orgsRepository: InMemoryOrgsRepository;
-  let sut: RegisterUseCase;
+  let sut: CreateOrgUseCase;
 
   beforeEach(() => {
     orgsRepository = new InMemoryOrgsRepository();
-    sut = new RegisterUseCase(orgsRepository);
+    sut = new CreateOrgUseCase(orgsRepository);
   });
 
   it("should be able to create a new org", async () => {

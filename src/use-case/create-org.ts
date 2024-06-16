@@ -4,7 +4,7 @@ import { OrgRepository } from "@/repositories/org-repository";
 import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-org-repository";
 import { OrgAlreadyExistsError } from "./errors/org-alerady-exists-error";
 
-interface RegisterUseCaseRequest {
+interface CreateOrgUseCaseRequest {
   name: string;
   author_name: string;
   email: string;
@@ -19,7 +19,7 @@ interface RegisterUseCaseRequest {
   longitude: number;
 }
 
-export class RegisterUseCase {
+export class CreateOrgUseCase {
   constructor(private orgsRepository: OrgRepository) {}
 
   async execute({
@@ -35,7 +35,7 @@ export class RegisterUseCase {
     street,
     latitude,
     longitude,
-  }: RegisterUseCaseRequest) {
+  }: CreateOrgUseCaseRequest) {
     const password_hash = await hash(password, 6);
 
     const orgWithSameEmail = await prisma.org.findUnique({
