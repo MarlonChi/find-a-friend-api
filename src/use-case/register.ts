@@ -48,9 +48,7 @@ export class RegisterUseCase {
       throw new OrgAlreadyExistsError();
     }
 
-    const prismaOrgRepository = new PrismaOrgsRepository();
-
-    await this.orgsRepository.create({
+    const org = await this.orgsRepository.create({
       name,
       author_name,
       email,
@@ -64,5 +62,7 @@ export class RegisterUseCase {
       latitude,
       longitude,
     });
+
+    return { org };
   }
 }
