@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { PrismaOrgsRepository } from "@/repositories/prisma-org-repository";
+import { OrgRepository } from "@/repositories/org-repository";
+import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-org-repository";
 import { hash } from "bcryptjs";
 
 interface RegisterUseCaseRequest {
@@ -18,7 +19,7 @@ interface RegisterUseCaseRequest {
 }
 
 export class RegisterUseCase {
-  constructor(private orgsRepository: any) {}
+  constructor(private orgsRepository: OrgRepository) {}
 
   async execute({
     name,
@@ -48,7 +49,7 @@ export class RegisterUseCase {
 
     const prismaOrgRepository = new PrismaOrgsRepository();
 
-    await prismaOrgRepository.create({
+    await this.orgsRepository.create({
       name,
       author_name,
       email,
