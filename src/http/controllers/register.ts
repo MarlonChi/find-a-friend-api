@@ -34,7 +34,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       });
     }
 
-    reply.status(500).send();
+    throw err;
   }
 
   return reply.status(201).send();
