@@ -28,8 +28,6 @@ describe("Create Org Use Case", () => {
       whatsapp: faker.phone.number(),
     });
 
-    console.log(org);
-
     expect(orgsRepository.items).toHaveLength(1);
     expect(org.id).toEqual(expect.any(String));
   });
