@@ -3,6 +3,7 @@ import { z } from "zod";
 import { CreateOrgUseCase } from "@/use-case/create-org";
 import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-org-repository";
 import { OrgAlreadyExistsError } from "@/use-case/errors/org-alerady-exists-error";
+import { MakeCreateOrgUseCase } from "@/use-case/factories/make-create-org-use-case";
 
 export async function createOrg(request: FastifyRequest, reply: FastifyReply) {
   const createOrgBodySchema = z.object({
@@ -23,8 +24,7 @@ export async function createOrg(request: FastifyRequest, reply: FastifyReply) {
   const body = createOrgBodySchema.parse(request.body);
 
   try {
-    const prismaOrgsRepository = new PrismaOrgsRepository();
-    const createOrgUseCase = new CreateOrgUseCase(prismaOrgsRepository);
+    const createOrgUseCase = MakeCreateOrgUseCase();
 
     await createOrgUseCase.execute(body);
   } catch (err) {
