@@ -22,4 +22,14 @@ export class InMemoryOrgsRepository implements PrismaOrgsRepository {
   async findByEmail(email: string): Promise<Org | null> {
     return this.items.find((org) => org.email === email) || null;
   }
+
+  async findById(id: string) {
+    const org = this.items.find((org) => org.id === id);
+
+    if (!org) {
+      return null;
+    }
+
+    return org;
+  }
 }
