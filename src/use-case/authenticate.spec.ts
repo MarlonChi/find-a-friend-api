@@ -1,15 +1,20 @@
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { AuthenticateUseCase } from "./authenticate";
 import { faker } from "@faker-js/faker";
 import { hash } from "bcryptjs";
 import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 
 describe("Authenticate Use Case", () => {
-  it("should be able to authenticate", async () => {
-    const orgsRepository = new InMemoryOrgsRepository();
-    const sut = new AuthenticateUseCase(orgsRepository);
+  let orgsRepository: InMemoryOrgsRepository;
+  let sut: AuthenticateUseCase;
 
+  beforeEach(() => {
+    orgsRepository = new InMemoryOrgsRepository();
+    sut = new AuthenticateUseCase(orgsRepository);
+  });
+
+  it("should be able to authenticate", async () => {
     await orgsRepository.create({
       author_name: faker.person.fullName(),
       cep: faker.location.zipCode(),
