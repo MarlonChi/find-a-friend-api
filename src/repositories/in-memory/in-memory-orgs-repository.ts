@@ -1,9 +1,9 @@
 import { Org, Prisma } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 import crypto from "node:crypto";
-import { PrismaOrgsRepository } from "../prisma/prisma-org-repository";
+import { OrgsRepository } from "../orgs-repository";
 
-export class InMemoryOrgsRepository implements PrismaOrgsRepository {
+export class InMemoryOrgsRepository implements OrgsRepository {
   public items: Org[] = [];
 
   async create(data: Prisma.OrgCreateInput): Promise<Org> {
@@ -31,5 +31,9 @@ export class InMemoryOrgsRepository implements PrismaOrgsRepository {
     }
 
     return org;
+  }
+
+  async findManyByCity(city: string) {
+    return this.items.filter((org) => org.city === city);
   }
 }
