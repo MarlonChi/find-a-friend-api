@@ -34,8 +34,6 @@ describe("Get Org Profile Use Case", () => {
       orgId: createOrg.id,
     });
 
-    console.log(org);
-
     expect(org.email).toEqual("johndoe@example.com");
   });
 

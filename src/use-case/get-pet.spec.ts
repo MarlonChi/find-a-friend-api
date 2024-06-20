@@ -25,8 +25,6 @@ describe("Get Pet Use Case", () => {
 
     const pet = await sut.execute({ id: createPet.id });
 
-    console.log(pet);
-
     expect(pet.pet.id).toEqual(expect.any(String));
   });
 
