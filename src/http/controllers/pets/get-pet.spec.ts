@@ -1,9 +1,9 @@
-import request from "supertest";
 import { app } from "@/app";
 import { faker } from "@faker-js/faker";
-import { afterAll, beforeAll, describe, it } from "vitest";
+import request from "supertest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-describe("Create pet (e2e)", () => {
+describe("Get Pet (E2E)", () => {
   beforeAll(async () => {
     await app.ready();
   });
@@ -12,7 +12,7 @@ describe("Create pet (e2e)", () => {
     await app.close();
   });
 
-  it("should create a new pet", async () => {
+  it("should get a pet", async () => {
     const org = {
       author_name: faker.person.fullName(),
       cep: faker.location.zipCode(),
@@ -45,5 +45,11 @@ describe("Create pet (e2e)", () => {
         energy_level: "low",
         environment: "outdoor",
       });
+
+    const getPetResponse = await request(app.server)
+      .get(`/pet/${response.body.id}`)
+      .set("Authorization", `Bearer ${authResponse.body.token}`);
+
+    expect(getPetResponse.status).toBe(200);
   });
 });
