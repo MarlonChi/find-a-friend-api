@@ -1,7 +1,8 @@
 import request from "supertest";
 import { app } from "@/app";
-import { faker } from "@faker-js/faker";
-import { afterAll, beforeAll, describe, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { generateOrg } from "@/utils/tests/generateOrg";
+import { generatePet } from "@/utils/tests/generatePet";
 
 describe("Create pet (e2e)", () => {
   beforeAll(async () => {
@@ -13,20 +14,7 @@ describe("Create pet (e2e)", () => {
   });
 
   it("should create a new pet", async () => {
-    const org = {
-      author_name: faker.person.fullName(),
-      cep: faker.location.zipCode(),
-      city: faker.location.city(),
-      email: faker.internet.email(),
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      name: faker.company.name(),
-      neighborhood: faker.location.streetAddress(),
-      password: faker.internet.password(),
-      state: faker.location.state(),
-      street: faker.location.street(),
-      whatsapp: faker.phone.number(),
-    };
+    const org = generateOrg();
 
     await request(app.server).post("/orgs").send(org);
 
@@ -37,13 +25,8 @@ describe("Create pet (e2e)", () => {
     const response = await request(app.server)
       .post("/pet")
       .set("Authorization", `Bearer ${authResponse.body.token}`)
-      .send({
-        name: "Bud",
-        about: "Calmo",
-        age: "5 meses",
-        size: "medium",
-        energy_level: "low",
-        environment: "outdoor",
-      });
+      .send(generatePet());
+
+    // expect(response.status).toBe(201);
   });
 });

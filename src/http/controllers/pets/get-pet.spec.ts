@@ -1,5 +1,6 @@
 import { app } from "@/app";
-import { faker } from "@faker-js/faker";
+import { generateOrg } from "@/utils/tests/generateOrg";
+import { generatePet } from "@/utils/tests/generatePet";
 import request from "supertest";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
@@ -13,20 +14,7 @@ describe("Get Pet (E2E)", () => {
   });
 
   it("should get a pet", async () => {
-    const org = {
-      author_name: faker.person.fullName(),
-      cep: faker.location.zipCode(),
-      city: faker.location.city(),
-      email: faker.internet.email(),
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      name: faker.company.name(),
-      neighborhood: faker.location.streetAddress(),
-      password: faker.internet.password(),
-      state: faker.location.state(),
-      street: faker.location.street(),
-      whatsapp: faker.phone.number(),
-    };
+    const org = generateOrg();
 
     await request(app.server).post("/orgs").send(org);
 
@@ -37,14 +25,7 @@ describe("Get Pet (E2E)", () => {
     const response = await request(app.server)
       .post("/pet")
       .set("Authorization", `Bearer ${authResponse.body.token}`)
-      .send({
-        name: "Bud",
-        about: "Calmo",
-        age: "5 meses",
-        size: "medium",
-        energy_level: "low",
-        environment: "outdoor",
-      });
+      .send(generatePet());
 
     const getPetResponse = await request(app.server)
       .get(`/pet/${response.body.id}`)

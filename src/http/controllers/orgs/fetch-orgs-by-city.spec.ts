@@ -2,7 +2,7 @@ import request from "supertest";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { app } from "@/app";
-import { faker } from "@faker-js/faker";
+import { generateOrg } from "@/utils/tests/generateOrg";
 
 describe("Fetch Orgs By City (e2e)", () => {
   beforeAll(async () => {
@@ -14,20 +14,7 @@ describe("Fetch Orgs By City (e2e)", () => {
   });
 
   it("should be able to fetch orgs by city", async () => {
-    const org = {
-      author_name: faker.person.fullName(),
-      cep: faker.location.zipCode(),
-      city: faker.location.city(),
-      email: faker.internet.email(),
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      name: faker.company.name(),
-      neighborhood: faker.location.streetAddress(),
-      password: faker.internet.password(),
-      state: faker.location.state(),
-      street: faker.location.street(),
-      whatsapp: faker.phone.number(),
-    };
+    const org = generateOrg();
 
     await request(app.server).post("/orgs").send(org).expect(201);
 

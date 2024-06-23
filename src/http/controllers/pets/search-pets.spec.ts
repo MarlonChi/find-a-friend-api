@@ -1,8 +1,8 @@
 import request from "supertest";
-
 import { app } from "@/app";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { faker } from "@faker-js/faker";
+import { generateOrg } from "@/utils/tests/generateOrg";
+import { generatePet } from "@/utils/tests/generatePet";
 
 describe("Search Pets (E2E)", () => {
   beforeAll(async () => {
@@ -14,20 +14,7 @@ describe("Search Pets (E2E)", () => {
   });
 
   it("should be able to search pets by city", async () => {
-    const org = {
-      author_name: faker.person.fullName(),
-      cep: faker.location.zipCode(),
-      city: faker.location.city(),
-      email: faker.internet.email(),
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      name: faker.company.name(),
-      neighborhood: faker.location.streetAddress(),
-      password: faker.internet.password(),
-      state: faker.location.state(),
-      street: faker.location.street(),
-      whatsapp: faker.phone.number(),
-    };
+    const org = generateOrg();
 
     await request(app.server).post("/orgs").send(org);
 
@@ -38,26 +25,12 @@ describe("Search Pets (E2E)", () => {
     await request(app.server)
       .post("/pet")
       .set("Authorization", `Bearer ${authResponse.body.token}`)
-      .send({
-        name: "Bud",
-        about: "Calmo",
-        age: "5 meses",
-        size: "medium",
-        energy_level: "low",
-        environment: "outdoor",
-      });
+      .send(generatePet());
 
     await request(app.server)
       .post("/pet")
       .set("Authorization", `Bearer ${authResponse.body.token}`)
-      .send({
-        name: "Bud",
-        about: "Calmo",
-        age: "5 meses",
-        size: "medium",
-        energy_level: "low",
-        environment: "outdoor",
-      });
+      .send(generatePet());
 
     const response = await request(app.server)
       .get("/pets")
@@ -74,20 +47,7 @@ describe("Search Pets (E2E)", () => {
   });
 
   it("should be able to search pets by city and age", async () => {
-    const org = {
-      author_name: faker.person.fullName(),
-      cep: faker.location.zipCode(),
-      city: faker.location.city(),
-      email: faker.internet.email(),
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      name: faker.company.name(),
-      neighborhood: faker.location.streetAddress(),
-      password: faker.internet.password(),
-      state: faker.location.state(),
-      street: faker.location.street(),
-      whatsapp: faker.phone.number(),
-    };
+    const org = generateOrg();
 
     await request(app.server).post("/orgs").send(org);
 
@@ -98,26 +58,12 @@ describe("Search Pets (E2E)", () => {
     await request(app.server)
       .post("/pet")
       .set("Authorization", `Bearer ${authResponse.body.token}`)
-      .send({
-        name: "Bud",
-        about: "Calmo",
-        age: "1",
-        size: "medium",
-        energy_level: "low",
-        environment: "outdoor",
-      });
+      .send(generatePet());
 
     await request(app.server)
       .post("/pet")
       .set("Authorization", `Bearer ${authResponse.body.token}`)
-      .send({
-        name: "Bud",
-        about: "Calmo",
-        age: "5 meses",
-        size: "medium",
-        energy_level: "low",
-        environment: "outdoor",
-      });
+      .send(generatePet({ age: "1" }));
 
     const response = await request(app.server)
       .get("/pets")
@@ -128,20 +74,7 @@ describe("Search Pets (E2E)", () => {
   });
 
   it("should be able to search pets by city and size", async () => {
-    const org = {
-      author_name: faker.person.fullName(),
-      cep: faker.location.zipCode(),
-      city: faker.location.city(),
-      email: faker.internet.email(),
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      name: faker.company.name(),
-      neighborhood: faker.location.streetAddress(),
-      password: faker.internet.password(),
-      state: faker.location.state(),
-      street: faker.location.street(),
-      whatsapp: faker.phone.number(),
-    };
+    const org = generateOrg();
 
     await request(app.server).post("/orgs").send(org);
 
@@ -152,38 +85,17 @@ describe("Search Pets (E2E)", () => {
     await request(app.server)
       .post("/pet")
       .set("Authorization", `Bearer ${authResponse.body.token}`)
-      .send({
-        name: "Bud",
-        about: "Calmo",
-        age: "5 meses",
-        size: "small",
-        energy_level: "low",
-        environment: "outdoor",
-      });
+      .send(generatePet({ size: "medium" }));
 
     await request(app.server)
       .post("/pet")
       .set("Authorization", `Bearer ${authResponse.body.token}`)
-      .send({
-        name: "Bud",
-        about: "Calmo",
-        age: "5 meses",
-        size: "medium",
-        energy_level: "low",
-        environment: "outdoor",
-      });
+      .send(generatePet({ size: "large" }));
 
     await request(app.server)
       .post("/pet")
       .set("Authorization", `Bearer ${authResponse.body.token}`)
-      .send({
-        name: "Bud",
-        about: "Calmo",
-        age: "5 meses",
-        size: "large",
-        energy_level: "low",
-        environment: "outdoor",
-      });
+      .send(generatePet({ size: "small" }));
 
     const response = await request(app.server)
       .get("/pets")
@@ -194,20 +106,7 @@ describe("Search Pets (E2E)", () => {
   });
 
   it("should be able to search pets by city and energy level", async () => {
-    const org = {
-      author_name: faker.person.fullName(),
-      cep: faker.location.zipCode(),
-      city: faker.location.city(),
-      email: faker.internet.email(),
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      name: faker.company.name(),
-      neighborhood: faker.location.streetAddress(),
-      password: faker.internet.password(),
-      state: faker.location.state(),
-      street: faker.location.street(),
-      whatsapp: faker.phone.number(),
-    };
+    const org = generateOrg();
 
     await request(app.server).post("/orgs").send(org);
 
@@ -218,26 +117,12 @@ describe("Search Pets (E2E)", () => {
     await request(app.server)
       .post("/pet")
       .set("Authorization", `Bearer ${authResponse.body.token}`)
-      .send({
-        name: "Bud",
-        about: "Calmo",
-        age: "5 meses",
-        size: "large",
-        energy_level: "low",
-        environment: "outdoor",
-      });
+      .send(generatePet());
 
     await request(app.server)
       .post("/pet")
       .set("Authorization", `Bearer ${authResponse.body.token}`)
-      .send({
-        name: "Bud",
-        about: "Calmo",
-        age: "5 meses",
-        size: "large",
-        energy_level: "medium",
-        environment: "outdoor",
-      });
+      .send(generatePet({ energy_level: "low" }));
 
     const response = await request(app.server)
       .get("/pets")
@@ -248,20 +133,7 @@ describe("Search Pets (E2E)", () => {
   });
 
   it("should be able to search pets by city and environment", async () => {
-    const org = {
-      author_name: faker.person.fullName(),
-      cep: faker.location.zipCode(),
-      city: faker.location.city(),
-      email: faker.internet.email(),
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      name: faker.company.name(),
-      neighborhood: faker.location.streetAddress(),
-      password: faker.internet.password(),
-      state: faker.location.state(),
-      street: faker.location.street(),
-      whatsapp: faker.phone.number(),
-    };
+    const org = generateOrg();
 
     await request(app.server).post("/orgs").send(org);
 
@@ -272,38 +144,18 @@ describe("Search Pets (E2E)", () => {
     await request(app.server)
       .post("/pet")
       .set("Authorization", `Bearer ${authResponse.body.token}`)
-      .send({
-        name: "Bud",
-        about: "Calmo",
-        age: "5 meses",
-        size: "large",
-        energy_level: "medium",
-        environment: "indoor",
-      });
+      .send(generatePet({ environment: "outdoor" }));
 
     const response = await request(app.server)
       .get("/pets")
-      .query({ city: org.city, environment: "indoor" });
+      .query({ city: org.city, environment: "outdoor" });
 
     expect(response.status).toBe(200);
     expect(response.body.pets).toHaveLength(1);
   });
 
   it("should be able to search pets by city and all filters", async () => {
-    const org = {
-      author_name: faker.person.fullName(),
-      cep: faker.location.zipCode(),
-      city: faker.location.city(),
-      email: faker.internet.email(),
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      name: faker.company.name(),
-      neighborhood: faker.location.streetAddress(),
-      password: faker.internet.password(),
-      state: faker.location.state(),
-      street: faker.location.street(),
-      whatsapp: faker.phone.number(),
-    };
+    const org = generateOrg();
 
     await request(app.server).post("/orgs").send(org);
 
