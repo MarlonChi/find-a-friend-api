@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
 import { GetOrgProfileUseCase } from "./get-org-profile";
-import { faker } from "@faker-js/faker";
 import { hash } from "bcryptjs";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
+import { generateOrg } from "@/utils/tests/generateOrg";
 
 let orgsRepository: InMemoryOrgsRepository;
 let sut: GetOrgProfileUseCase;
@@ -15,26 +15,15 @@ describe("Get Org Profile Use Case", () => {
   });
 
   it("should be able to get org profile", async () => {
-    const createOrg = await orgsRepository.create({
-      author_name: faker.person.fullName(),
-      cep: faker.location.zipCode(),
-      city: faker.location.city(),
-      email: "johndoe@example.com",
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      name: faker.company.name(),
-      neighborhood: faker.location.streetAddress(),
-      password: await hash("123456", 6),
-      state: faker.location.state(),
-      street: faker.location.street(),
-      whatsapp: faker.phone.number(),
-    });
+    const createOrg = await orgsRepository.create(
+      generateOrg({ password: await hash("123456", 6) })
+    );
 
     const { org } = await sut.execute({
       orgId: createOrg.id,
     });
 
-    expect(org.email).toEqual("johndoe@example.com");
+    expect(org.email).toEqual(createOrg.email);
   });
 
   it("should not be able to get org profile with wrong id", async () => {

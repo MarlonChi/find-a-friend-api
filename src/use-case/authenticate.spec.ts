@@ -1,9 +1,9 @@
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
 import { beforeEach, describe, expect, it } from "vitest";
 import { AuthenticateUseCase } from "./authenticate";
-import { faker } from "@faker-js/faker";
 import { hash } from "bcryptjs";
 import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
+import { generateOrg } from "@/utils/tests/generateOrg";
 
 describe("Authenticate Use Case", () => {
   let orgsRepository: InMemoryOrgsRepository;
@@ -15,23 +15,12 @@ describe("Authenticate Use Case", () => {
   });
 
   it("should be able to authenticate", async () => {
-    await orgsRepository.create({
-      author_name: faker.person.fullName(),
-      cep: faker.location.zipCode(),
-      city: faker.location.city(),
-      email: "johndoe@example.com",
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      name: faker.company.name(),
-      neighborhood: faker.location.streetAddress(),
-      password: await hash("123456", 6),
-      state: faker.location.state(),
-      street: faker.location.street(),
-      whatsapp: faker.phone.number(),
-    });
+    const createOrg = await orgsRepository.create(
+      generateOrg({ password: await hash("123456", 6) })
+    );
 
     const { org } = await sut.execute({
-      email: "johndoe@example.com",
+      email: createOrg.email,
       password: "123456",
     });
 
@@ -54,20 +43,9 @@ describe("Authenticate Use Case", () => {
     const orgsRepository = new InMemoryOrgsRepository();
     const sut = new AuthenticateUseCase(orgsRepository);
 
-    await orgsRepository.create({
-      author_name: faker.person.fullName(),
-      cep: faker.location.zipCode(),
-      city: faker.location.city(),
-      email: "johndoe@example.com",
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      name: faker.company.name(),
-      neighborhood: faker.location.streetAddress(),
-      password: await hash("123456", 6),
-      state: faker.location.state(),
-      street: faker.location.street(),
-      whatsapp: faker.phone.number(),
-    });
+    await orgsRepository.create(
+      generateOrg({ password: await hash("123456", 6) })
+    );
 
     expect(() =>
       sut.execute({ email: "johndoe@example.com", password: "654321" })

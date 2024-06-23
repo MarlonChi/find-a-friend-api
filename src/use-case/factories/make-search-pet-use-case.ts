@@ -1,5 +1,5 @@
 import { PrismaPetRepository } from "@/repositories/prisma/prisma-pet-repository";
-import { SearchPetUseCase } from "../search-pet";
+import { SearchPetUseCase } from "../search-pets";
 
 export function MakeSearchPetUseCase() {
   const prismaPetsRepository = new PrismaPetRepository();
