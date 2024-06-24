@@ -117,7 +117,7 @@ describe("Search Pets (E2E)", () => {
     await request(app.server)
       .post("/pet")
       .set("Authorization", `Bearer ${authResponse.body.token}`)
-      .send(generatePet());
+      .send(generatePet({ energy_level: "high" }));
 
     await request(app.server)
       .post("/pet")

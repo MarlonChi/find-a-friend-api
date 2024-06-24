@@ -27,6 +27,6 @@ describe("Create pet (e2e)", () => {
       .set("Authorization", `Bearer ${authResponse.body.token}`)
       .send(generatePet());
 
-    // expect(response.status).toBe(201);
+    expect(response.status).toBe(200);
   });
 });
