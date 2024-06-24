@@ -15,8 +15,6 @@ export async function createOrg(request: FastifyRequest, reply: FastifyReply) {
     city: z.string(),
     neighborhood: z.string(),
     street: z.string(),
-    latitude: z.number(),
-    longitude: z.number(),
   });
 
   const body = createOrgBodySchema.parse(request.body);

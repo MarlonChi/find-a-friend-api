@@ -12,8 +12,6 @@ export function generateOrg(overwrite?: GenerateOrgProps) {
     cep: faker.location.zipCode(),
     city: faker.location.city(),
     email: faker.internet.email(),
-    latitude: faker.location.latitude(),
-    longitude: faker.location.longitude(),
     name: faker.company.name(),
     neighborhood: faker.location.streetAddress(),
     password: overwrite?.password ?? faker.internet.password(),

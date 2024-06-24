@@ -10,8 +10,6 @@ export class InMemoryOrgsRepository implements OrgsRepository {
     const org = {
       id: crypto.randomUUID(),
       ...data,
-      latitude: new Decimal(data.latitude.toString()),
-      longitude: new Decimal(data.longitude.toString()),
     };
 
     this.items.push(org);

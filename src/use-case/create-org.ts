@@ -14,8 +14,6 @@ interface CreateOrgUseCaseRequest {
   city: string;
   neighborhood: string;
   street: string;
-  latitude: number;
-  longitude: number;
 }
 
 export class CreateOrgUseCase {
@@ -32,8 +30,6 @@ export class CreateOrgUseCase {
     city,
     neighborhood,
     street,
-    latitude,
-    longitude,
   }: CreateOrgUseCaseRequest) {
     const password_hash = await hash(password, 6);
 
@@ -58,8 +54,6 @@ export class CreateOrgUseCase {
       city,
       neighborhood,
       street,
-      latitude,
-      longitude,
     });
 
     return { org };
