@@ -2,6 +2,10 @@ import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { OrgsRepository } from "../orgs-repository";
 
+interface Locale {
+  city: string;
+  state: string;
+}
 export class PrismaOrgsRepository implements OrgsRepository {
   async create(data: Prisma.OrgCreateInput) {
     const org = await prisma.org.create({
@@ -39,5 +43,13 @@ export class PrismaOrgsRepository implements OrgsRepository {
     });
 
     return org;
+  }
+
+  async getCities(): Promise<Locale[]> {
+    const locales = await prisma.org.findMany({
+      select: { city: true, state: true },
+    });
+
+    return locales;
   }
 }

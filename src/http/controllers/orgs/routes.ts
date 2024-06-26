@@ -7,6 +7,7 @@ import { authenticate } from "./authenticate";
 import { orgProfile } from "./org-profile";
 import { refresh } from "./refresh";
 import { fetchOrgsByCity } from "./fetch-orgs-by-city";
+import { getCities } from "./get-cities";
 
 export async function orgsRoutes(app: FastifyInstance) {
   app.post("/orgs", createOrg);
@@ -16,4 +17,6 @@ export async function orgsRoutes(app: FastifyInstance) {
 
   app.get("/org-profile", { onRequest: [verifyJWT] }, orgProfile);
   app.get("/orgs/by-city", fetchOrgsByCity);
+
+  app.get("/locales", getCities);
 }
